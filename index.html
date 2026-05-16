@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>吃包日记</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+    <!-- 顶部 -->
+    <header class="header">
+        <div class="header-left">
+            <h1>🍞 吃包日记</h1>
+        </div>
+        <div class="header-right">
+            <span class="city-selector" id="citySelector">
+                <span class="city-name" id="cityName">北京</span>
+                <svg class="city-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+        </div>
+    </header>
+
+    <!-- 页面容器 -->
+    <div class="page-container">
+        <!-- 首页 -->
+        <div class="page page-home active" id="pageHome">
+            <div class="scroll-area">
+                <!-- 搜索栏 -->
+                <div class="search-bar">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" placeholder="搜索面包、面包店、帖子..." id="searchInput">
+                </div>
+
+                <!-- Banner -->
+                <div class="banner-section">
+                    <div class="banner-card">
+                        <div class="banner-text">
+                            <span class="banner-tag">🔥 热门推荐</span>
+                            <h2>法式可颂</h2>
+                            <p>层层酥脆，黄油香气扑鼻</p>
+                        </div>
+                        <span class="banner-emoji">🥐</span>
+                    </div>
+                    <div class="banner-dots">
+                        <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+                    </div>
+                </div>
+
+                <!-- 快捷入口 -->
+                <div class="quick-entry">
+                    <div class="entry-item" data-action="checkin">
+                        <div class="entry-icon" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">📸</div>
+                        <span>打卡</span>
+                    </div>
+                    <div class="entry-item" data-action="shops">
+                        <div class="entry-icon" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">🏪</div>
+                        <span>面包店</span>
+                    </div>
+                    <div class="entry-item" data-action="ranking">
+                        <div class="entry-icon" style="background:linear-gradient(135deg,#FCE4EC,#F8BBD0)">🏆</div>
+                        <span>排行榜</span>
+                    </div>
+                    <div class="entry-item" data-action="community">
+                        <div class="entry-icon" style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB)">💬</div>
+                        <span>吃包圈</span>
+                    </div>
+                </div>
+
+                <!-- 面包推荐 -->
+                <section class="section">
+                    <div class="section-head">
+                        <h2>🍞 面包推荐</h2>
+                        <button class="more-btn">更多 ›</button>
+                    </div>
+                    <div class="recommend-scroll">
+                        <div class="recommend-card">
+                            <div class="recommend-img" style="background:linear-gradient(135deg,#FFD93D,#F5A623)"><span>🥖</span></div>
+                            <div class="recommend-info"><h4>法式长棍</h4><div class="recommend-rating">⭐ 4.8</div><span class="recommend-tag">经典</span></div>
+                        </div>
+                        <div class="recommend-card">
+                            <div class="recommend-img" style="background:linear-gradient(135deg,#FFB6C1,#FF69B4)"><span>🧁</span></div>
+                            <div class="recommend-info"><h4>草莓杯子蛋糕</h4><div class="recommend-rating">⭐ 4.6</div><span class="recommend-tag">甜品</span></div>
+                        </div>
+                        <div class="recommend-card">
+                            <div class="recommend-img" style="background:linear-gradient(135deg,#D4A574,#8B6914)"><span>🥯</span></div>
+                            <div class="recommend-info"><h4>全麦贝果</h4><div class="recommend-rating">⭐ 4.7</div><span class="recommend-tag">健康</span></div>
+                        </div>
+                        <div class="recommend-card">
+                            <div class="recommend-img" style="background:linear-gradient(135deg,#98D8C8,#7BC8A4)"><span>🫓</span></div>
+                            <div class="recommend-info"><h4>芝麻烧饼</h4><div class="recommend-rating">⭐ 4.5</div><span class="recommend-tag">中式</span></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 广告位 -->
+                <div class="ad-banner">
+                    <span class="ad-tag">广告</span>
+                    <div class="ad-content">
+                        <span class="ad-emoji">🛒</span>
+                        <div class="ad-text"><strong>新鲜面包送到家</strong><p>首单立减5元，满30包邮</p></div>
+                    </div>
+                </div>
+
+                <!-- 首页面包店预览 -->
+                <section class="section" id="shopsSection">
+                    <div class="section-head">
+                        <h2>🏪 面包店</h2>
+                        <button class="more-btn" onclick="app.switchPage('shops')">查看更多 ›</button>
+                    </div>
+                    <div class="shop-list" id="shopList">
+                        <div class="shop-card" data-type="offline">
+                            <div class="shop-img"><span>🥐</span><span class="shop-badge">线下</span></div>
+                            <div class="shop-info">
+                                <div class="shop-top"><h4>好利来</h4><span class="shop-rating">⭐ 4.7</span></div>
+                                <p class="shop-desc">半熟芝士、冰山熔岩蛋糕</p>
+                                <div class="shop-bottom"><span>📍 1.2km</span><span>人均 ¥35</span></div>
+                                <div class="shop-actions"><button class="shop-btn primary">导航前往</button><button class="shop-btn">详情</button></div>
+                            </div>
+                        </div>
+                        <div class="shop-card" data-type="offline">
+                            <div class="shop-img"><span>🍞</span><span class="shop-badge">线下</span></div>
+                            <div class="shop-info">
+                                <div class="shop-top"><h4>原麦山丘</h4><span class="shop-rating">⭐ 4.8</span></div>
+                                <p class="shop-desc">全麦面包、欧包、吐司</p>
+                                <div class="shop-bottom"><span>📍 2.5km</span><span>人均 ¥42</span></div>
+                                <div class="shop-actions"><button class="shop-btn primary">导航前往</button><button class="shop-btn">详情</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 首页吃包圈预览 -->
+                <section class="section" id="communitySection">
+                    <div class="section-head">
+                        <h2>💬 吃包圈</h2>
+                        <button class="more-btn" onclick="app.switchPage('community')">查看更多 ›</button>
+                    </div>
+                    <div class="post-list" id="postListPreview">
+                        <!-- 示例帖子1 -->
+                        <div class="post-card" data-post-id="demo1">
+                            <div class="post-header">
+                                <div class="post-user">
+                                    <div class="avatar" style="background:#FFD93D">🧑</div>
+                                    <div><span class="username">面包控小王</span><span class="post-time">2小时前 · 朝阳区</span></div>
+                                </div>
+                                <span class="post-tag">分享</span>
+                            </div>
+                            <p class="post-text">发现一家宝藏面包店！朝阳大悦城B1新开的「麦香村」，他们的可颂真的绝了...</p>
+                            <div class="post-footer">
+                                <button class="post-action like-btn"><span class="like-icon">👍</span> <span class="like-count">128</span></button>
+                                <button class="post-action comment-btn"><span>💬</span> <span class="comment-count">23</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div style="height:80px"></div>
+            </div>
+        </div>
+
+        <!-- 面包店页面 -->
+        <div class="page page-shops" id="pageShops">
+            <div class="scroll-area">
+                <div class="page-header">
+                    <h2>🏪 面包店</h2>
+                    <p>发现身边的优质面包店</p>
+                </div>
+
+                <!-- 面包店筛选 -->
+                <div class="shop-tabs-container">
+                    <div class="shop-tabs">
+                        <button class="shop-tab active" data-type="all">全部</button>
+                        <button class="shop-tab" data-type="offline">线下门店</button>
+                        <button class="shop-tab" data-type="delivery">外卖配送</button>
+                        <button class="shop-tab" data-type="group">社区团购</button>
+                    </div>
+                </div>
+
+                <!-- 面包店列表 -->
+                <div class="shop-list-full" id="shopListFull">
+                    <div class="shop-card" data-type="offline">
+                        <div class="shop-img"><span>🥐</span><span class="shop-badge">线下</span></div>
+                        <div class="shop-info">
+                            <div class="shop-top"><h4>好利来</h4><span class="shop-rating">⭐ 4.7</span></div>
+                            <p class="shop-desc">半熟芝士、冰山熔岩蛋糕</p>
+                            <div class="shop-bottom"><span>📍 1.2km</span><span>人均 ¥35</span></div>
+                            <div class="shop-actions"><button class="shop-btn primary">导航前往</button><button class="shop-btn">详情</button></div>
+                        </div>
+                    </div>
+                    <div class="shop-card" data-type="offline">
+                        <div class="shop-img"><span>🍞</span><span class="shop-badge">线下</span></div>
+                        <div class="shop-info">
+                            <div class="shop-top"><h4>原麦山丘</h4><span class="shop-rating">⭐ 4.8</span></div>
+                            <p class="shop-desc">全麦面包、欧包、吐司</p>
+                            <div class="shop-bottom"><span>📍 2.5km</span><span>人均 ¥42</span></div>
+                            <div class="shop-actions"><button class="shop-btn primary">导航前往</button><button class="shop-btn">详情</button></div>
+                        </div>
+                    </div>
+                    <div class="shop-card" data-type="delivery">
+                        <div class="shop-img" style="background:linear-gradient(135deg,#E3F2FD,#90CAF9)"><span>🛵</span><span class="shop-badge delivery">外卖</span></div>
+                        <div class="shop-info">
+                            <div class="shop-top"><h4>味多美外卖</h4><span class="shop-rating">⭐ 4.5</span></div>
+                            <p class="shop-desc">法棍、老婆饼、生日蛋糕</p>
+                            <div class="shop-bottom"><span>🛵 约30分钟</span><span>起送 ¥20</span></div>
+                            <div class="shop-actions"><button class="shop-btn primary">立即下单</button><button class="shop-btn">详情</button></div>
+                        </div>
+                    </div>
+                    <div class="shop-card" data-type="group">
+                        <div class="shop-img" style="background:linear-gradient(135deg,#FFF3E0,#FFCC80)"><span>👥</span><span class="shop-badge group">快团团</span></div>
+                        <div class="shop-info">
+                            <div class="shop-top"><h4>社区团购 · 王姐面包</h4><span class="shop-rating">⭐ 4.9</span></div>
+                            <p class="shop-desc">手工吐司、蛋挞、肉松小贝</p>
+                            <div class="shop-bottom"><span>📍 明天自提</span><span>已团 328份</span></div>
+                            <div class="shop-actions"><button class="shop-btn primary">扫码跟团</button><button class="shop-btn">详情</button></div>
+                            <div class="qr-section">
+                                <div class="qr-placeholder"><span>📱</span><span>点击查看快团团二维码</span></div>
+                                <div class="qr-modal"><div class="qr-overlay"></div><div class="qr-content"><h4>扫码跟团</h4><div class="qr-code"><div class="qr-grid"></div></div><p class="qr-tip">长按识别二维码 · 微信扫码跟团</p><button class="qr-close">关闭</button></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shop-card" data-type="group">
+                        <div class="shop-img" style="background:linear-gradient(135deg,#F3E5F5,#CE93D8)"><span>👥</span><span class="shop-badge group">快团团</span></div>
+                        <div class="shop-info">
+                            <div class="shop-top"><h4>社区团购 · 李叔烘焙</h4><span class="shop-rating">⭐ 4.7</span></div>
+                            <p class="shop-desc">可颂、脏脏包、泡芙</p>
+                            <div class="shop-bottom"><span>📍 后天自提</span><span>已团 256份</span></div>
+                            <div class="shop-actions"><button class="shop-btn primary">扫码跟团</button><button class="shop-btn">详情</button></div>
+                            <div class="qr-section">
+                                <div class="qr-placeholder"><span>📱</span><span>点击查看快团团二维码</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="height:80px"></div>
+            </div>
+        </div>
+
+        <!-- 吃包圈页面 -->
+        <div class="page page-community" id="pageCommunity">
+            <div class="scroll-area">
+                <div class="page-header">
+                    <h2>💬 吃包圈</h2>
+                    <p>分享美味，发现好店</p>
+                </div>
+
+                <!-- 吃包圈筛选标签 -->
+                <div class="community-tabs">
+                    <button class="community-tab active" data-filter="all">全部</button>
+                    <button class="community-tab" data-filter="share">分享</button>
+                    <button class="community-tab" data-filter="group">快团团</button>
+                    <button class="community-tab" data-filter="ask">求推荐</button>
+                    <button class="community-tab" data-filter="checkin">打卡</button>
+                </div>
+
+                <!-- 热门话题 -->
+                <div class="hot-topics">
+                    <div class="topic-tag">🔥 朝阳大悦城</div>
+                    <div class="topic-tag">🥐 可颂推荐</div>
+                    <div class="topic-tag">💰 性价比</div>
+                    <div class="topic-tag">🍞 全麦面包</div>
+                </div>
+
+                <!-- 发帖按钮 -->
+                <div class="community-post-btn">
+                    <button class="post-now-btn" id="postNowBtnCommunity">
+                        <span>✏️</span> 发布帖子
+                    </button>
+                </div>
+
+                <div class="post-list" id="postList">
+                    <!-- 示例帖子1 -->
+                    <div class="post-card" data-post-id="demo1">
+                        <div class="post-header">
+                            <div class="post-user">
+                                <div class="avatar" style="background:#FFD93D">🧑</div>
+                                <div><span class="username">面包控小王</span><span class="post-time">2小时前 · 朝阳区</span></div>
+                            </div>
+                            <span class="post-tag">分享</span>
+                        </div>
+                        <p class="post-text">发现一家宝藏面包店！朝阳大悦城B1新开的「麦香村」，他们的可颂真的绝了，18块钱一个虽然小贵但是值得！黄油味超浓，层层酥脆，早上配咖啡完美~</p>
+                        <div class="post-images">
+                            <div class="post-img" style="background:#FFF3E0">🥐</div>
+                            <div class="post-img" style="background:#FFE0B2">☕</div>
+                            <div class="post-img" style="background:#FFF8E1">🥖</div>
+                        </div>
+                        <div class="post-location">📍 麦香村 · 朝阳大悦城B1</div>
+                        <div class="post-footer">
+                            <button class="post-action like-btn"><span class="like-icon">👍</span> <span class="like-count">128</span></button>
+                            <button class="post-action comment-btn"><span>💬</span> <span class="comment-count">23</span></button>
+                            <button class="post-action"><span>↗️</span> 分享</button>
+                        </div>
+                        <!-- 评论区 -->
+                        <div class="comment-section">
+                            <div class="comment-list" data-post-id="demo1">
+                                <div class="comment-item">
+                                    <span class="comment-user">烘焙达人</span>
+                                    <span class="comment-text">这家我也去过！推荐他们的脏脏包，绝了</span>
+                                    <span class="comment-time">1小时前</span>
+                                </div>
+                                <div class="comment-item">
+                                    <span class="comment-user">面包新手</span>
+                                    <span class="comment-text">求地址！听起来好好吃</span>
+                                    <span class="comment-time">30分钟前</span>
+                                </div>
+                            </div>
+                            <div class="comment-input-bar">
+                                <input type="text" placeholder="写评论..." class="comment-input" data-post-id="demo1">
+                                <button class="comment-send" data-post-id="demo1">发送</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 示例帖子2 -->
+                    <div class="post-card" data-post-id="demo2">
+                        <div class="post-header">
+                            <div class="post-user">
+                                <div class="avatar" style="background:#B2DFDB">👩</div>
+                                <div><span class="username">团购小能手</span><span class="post-time">5小时前 · 海淀区</span></div>
+                            </div>
+                            <span class="post-tag" style="background:#E8F5E9;color:#4CAF50">快团团</span>
+                        </div>
+                        <p class="post-text">姐妹们！发现一个新开的社区团购，王姐的手工吐司真的太好吃了！比面包店便宜一半，而且用料很实在。明天截团，要的赶紧扫码！</p>
+                        <div class="post-qr-preview">
+                            <div class="mini-qr"><div class="mini-qr-grid"></div></div>
+                            <div class="qr-info"><strong>王姐手工吐司团</strong><span>已团328份 · 明天截团</span></div>
+                            <button class="qr-view-btn">查看二维码</button>
+                        </div>
+                        <div class="post-footer">
+                            <button class="post-action like-btn"><span class="like-icon">👍</span> <span class="like-count">256</span></button>
+                            <button class="post-action comment-btn"><span>💬</span> <span class="comment-count">45</span></button>
+                            <button class="post-action"><span>↗️</span> 分享</button>
+                        </div>
+                        <div class="comment-section">
+                            <div class="comment-list" data-post-id="demo2">
+                                <div class="comment-item">
+                                    <span class="comment-user">吃包日记用户</span>
+                                    <span class="comment-text">团了五次了每次都不踩雷！</span>
+                                    <span class="comment-time">3小时前</span>
+                                </div>
+                            </div>
+                            <div class="comment-input-bar">
+                                <input type="text" placeholder="写评论..." class="comment-input" data-post-id="demo2">
+                                <button class="comment-send" data-post-id="demo2">发送</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 示例帖子3 -->
+                    <div class="post-card" data-post-id="demo3">
+                        <div class="post-header">
+                            <div class="post-user">
+                                <div class="avatar" style="background:#FFCCBC">👧</div>
+                                <div><span class="username">面包新手</span><span class="post-time">昨天 · 东城区</span></div>
+                            </div>
+                            <span class="post-tag" style="background:#E3F2FD;color:#2196F3">求推荐</span>
+                        </div>
+                        <p class="post-text">请问东城区附近有什么好吃的面包店推荐吗？最好是性价比高一点的，学生党预算有限 😭 想吃贝果和碱水包！</p>
+                        <div class="post-footer">
+                            <button class="post-action like-btn"><span class="like-icon">👍</span> <span class="like-count">45</span></button>
+                            <button class="post-action comment-btn"><span>💬</span> <span class="comment-count">67</span></button>
+                            <button class="post-action"><span>↗️</span> 分享</button>
+                        </div>
+                        <div class="comment-section">
+                            <div class="comment-list" data-post-id="demo3">
+                                <div class="comment-item">
+                                    <span class="comment-user">面包控小王</span>
+                                    <span class="comment-text">推荐东直门的「面包会说话」，贝果超好吃！</span>
+                                    <span class="comment-time">昨天</span>
+                                </div>
+                                <div class="comment-item">
+                                    <span class="comment-user">烘焙爱好者</span>
+                                    <span class="comment-text">试试原麦山丘，经常有打折活动</span>
+                                    <span class="comment-time">昨天</span>
+                                </div>
+                            </div>
+                            <div class="comment-input-bar">
+                                <input type="text" placeholder="写评论..." class="comment-input" data-post-id="demo3">
+                                <button class="comment-send" data-post-id="demo3">发送</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="height:80px"></div>
+            </div>
+        </div>
+
+        <!-- 我的页面 -->
+        <div class="page page-profile" id="pageProfile">
+            <div class="scroll-area">
+                <!-- 个人头部 -->
+                <div class="profile-header">
+                    <div class="profile-avatar-wrap">
+                        <div class="profile-avatar" id="profileAvatar">🍞</div>
+                        <div class="profile-level" id="profileLevel">Lv.1</div>
+                    </div>
+                    <div class="profile-info">
+                        <h2 id="profileNickname">面包爱好者</h2>
+                        <p class="profile-title" id="profileTitle">初入面包圈</p>
+                    </div>
+                    <button class="profile-edit-btn" id="profileEditBtn">✏️</button>
+                </div>
+
+                <!-- 数据统计 -->
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-num" id="statCheckins">0</span>
+                        <span class="stat-label">打卡</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num" id="statPosts">0</span>
+                        <span class="stat-label">帖子</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num" id="statLikes">0</span>
+                        <span class="stat-label">获赞</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num" id="statComments">0</span>
+                        <span class="stat-label">评论</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num" id="statDays">0</span>
+                        <span class="stat-label">天</span>
+                    </div>
+                </div>
+
+                <!-- 成就徽章墙 -->
+                <div class="profile-section">
+                    <div class="section-head">
+                        <h3>🏆 成就徽章</h3>
+                        <span class="badge-count" id="badgeCount">0/12</span>
+                    </div>
+                    <div class="badge-wall" id="badgeWall">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 称号展示 -->
+                <div class="profile-section">
+                    <div class="section-head">
+                        <h3>🎖️ 我的称号</h3>
+                    </div>
+                    <div class="title-display">
+                        <div class="current-title-card" id="currentTitleCard">
+                            <span class="title-icon">🍞</span>
+                            <div>
+                                <strong id="currentTitleName">初入面包圈</strong>
+                                <span>默认称号</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 功能列表 -->
+                <div class="profile-section">
+                    <div class="profile-menu">
+                        <div class="menu-item" data-action="myCheckins">
+                            <span class="menu-icon">📸</span>
+                            <span class="menu-text">我的打卡</span>
+                            <span class="menu-arrow">›</span>
+                            <span class="menu-badge" id="menuCheckinCount">0</span>
+                        </div>
+                        <div class="menu-item" data-action="myPosts">
+                            <span class="menu-icon">📝</span>
+                            <span class="menu-text">我的帖子</span>
+                            <span class="menu-arrow">›</span>
+                            <span class="menu-badge" id="menuPostCount">0</span>
+                        </div>
+                        <div class="menu-item" data-action="myLikes">
+                            <span class="menu-icon">❤️</span>
+                            <span class="menu-text">我的点赞</span>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        <div class="menu-item" data-action="myCollection">
+                            <span class="menu-icon">⭐</span>
+                            <span class="menu-text">我的收藏</span>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 设置 -->
+                <div class="profile-section">
+                    <div class="profile-menu">
+                        <div class="menu-item" data-action="editNickname">
+                            <span class="menu-icon">👤</span>
+                            <span class="menu-text">修改昵称</span>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        <div class="menu-item" data-action="editAvatar">
+                            <span class="menu-icon">🖼️</span>
+                            <span class="menu-text">更换头像</span>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        <div class="menu-item" data-action="about">
+                            <span class="menu-icon">ℹ️</span>
+                            <span class="menu-text">关于吃包日记</span>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        <div class="menu-item" data-action="clearData">
+                            <span class="menu-icon">🗑️</span>
+                            <span class="menu-text">清空数据</span>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="height:80px"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-page="home"><span class="nav-icon">🏠</span><span class="nav-label">首页</span></button>
+        <button class="nav-item" data-page="shops"><span class="nav-icon">🏪</span><span class="nav-label">面包店</span></button>
+        <button class="nav-item nav-center" id="navPlus"><span class="nav-plus">+</span></button>
+        <button class="nav-item" data-page="community"><span class="nav-icon">💬</span><span class="nav-label">吃包圈</span></button>
+        <button class="nav-item" data-page="profile"><span class="nav-icon">👤</span><span class="nav-label">我的</span></button>
+    </nav>
+
+    <!-- 城市选择弹窗 -->
+    <div class="popup" id="cityPopup">
+        <div class="popup-mask"></div>
+        <div class="popup-body" style="max-height:80vh;">
+            <div class="popup-header">
+                <h3>选择城市</h3>
+                <button class="popup-close" id="cityClose">×</button>
+            </div>
+            <div class="city-content">
+                <div class="city-search">
+                    <svg class="city-search-icon" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" placeholder="搜索城市名称或拼音" id="citySearchInput">
+                </div>
+                <div class="current-city-bar">
+                    <span>📍 当前</span>
+                    <strong id="currentCityName">北京</strong>
+                </div>
+                <div class="hot-cities">
+                    <h4>热门城市</h4>
+                    <div class="city-grid" id="hotCityGrid"></div>
+                </div>
+                <div class="all-cities" id="allCitiesList">
+                    <!-- 字母索引城市列表 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发布选择弹窗 -->
+    <div class="popup" id="publishPopup">
+        <div class="popup-mask"></div>
+        <div class="popup-body" style="max-height:50vh;">
+            <div class="popup-header"><h3>发布</h3><button class="popup-close" id="publishClose">×</button></div>
+            <div class="publish-options">
+                <div class="publish-option" data-type="checkin"><div class="option-icon" style="background:#FFF3E0">📸</div><div class="option-text"><strong>吃包打卡</strong><span>记录今天吃的美味面包</span></div></div>
+                <div class="publish-option" data-type="share"><div class="option-icon" style="background:#E8F5E9">🏪</div><div class="option-text"><strong>分享店铺</strong><span>推荐好吃的面包店</span></div></div>
+                <div class="publish-option" data-type="group"><div class="option-icon" style="background:#FFF8E1">👥</div><div class="option-text"><strong>分享团购</strong><span>分享快团团/团购信息</span></div></div>
+                <div class="publish-option" data-type="ask"><div class="option-icon" style="background:#E3F2FD">❓</div><div class="option-text"><strong>求推荐</strong><span>向大家求助推荐</span></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 打卡弹窗 -->
+    <div class="popup" id="checkinPopup">
+        <div class="popup-mask"></div>
+        <div class="popup-body">
+            <div class="popup-header"><h3>📝 吃包打卡</h3><button class="popup-close" id="checkinClose">×</button></div>
+            <div class="popup-scroll">
+                <div class="checkin-photo" id="checkinPhoto">
+                    <input type="file" accept="image/*" id="photoInput">
+                    <div class="photo-placeholder"><span>📷</span><p>拍照记录</p></div>
+                </div>
+                <div class="checkin-form">
+                    <input type="text" placeholder="面包名称" id="checkinName">
+                    <div class="checkin-rating" id="checkinRating">
+                        <span class="rate-star" data-v="1">☆</span><span class="rate-star" data-v="2">☆</span><span class="rate-star" data-v="3">☆</span><span class="rate-star" data-v="4">☆</span><span class="rate-star" data-v="5">☆</span>
+                    </div>
+                    <div class="checkin-tags">
+                        <span class="ctag" data-t="好吃">😋 好吃</span>
+                        <span class="ctag" data-t="酥脆">🥨 酥脆</span>
+                        <span class="ctag" data-t="松软">🫧 松软</span>
+                        <span class="ctag" data-t="推荐">⭐ 推荐</span>
+                        <span class="ctag" data-t="会回购">🔄 回购</span>
+                    </div>
+                    <textarea placeholder="写点什么..." id="checkinNote" rows="3"></textarea>
+                    <button class="checkin-submit" id="checkinSubmit">发布打卡</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发帖子弹窗 -->
+    <div class="popup" id="postPopup">
+        <div class="popup-mask"></div>
+        <div class="popup-body">
+            <div class="popup-header"><h3>📝 发布帖子</h3><button class="popup-close" id="postClose">×</button></div>
+            <div class="popup-scroll">
+                <div class="post-type-select">
+                    <label class="ptype-label"><input type="radio" name="postType" value="share" checked><span>分享店铺</span></label>
+                    <label class="ptype-label"><input type="radio" name="postType" value="group"><span>分享团购</span></label>
+                    <label class="ptype-label"><input type="radio" name="postType" value="ask"><span>求推荐</span></label>
+                </div>
+                <div class="checkin-photo" id="postPhoto">
+                    <input type="file" accept="image/*" id="postPhotoInput">
+                    <div class="photo-placeholder"><span>📷</span><p>添加图片</p></div>
+                </div>
+                <div class="checkin-form">
+                    <input type="text" placeholder="标题（如：发现一家宝藏面包店）" id="postTitle">
+                    <textarea placeholder="详细内容..." id="postContent" rows="5"></textarea>
+                    <input type="text" placeholder="位置（如：朝阳区大悦城）" id="postLocation">
+                    <button class="checkin-submit" id="postSubmit">发布帖子</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 面包店详情弹窗 -->
+    <div class="popup" id="shopDetailPopup">
+        <div class="popup-mask"></div>
+        <div class="popup-body">
+            <div class="popup-header">
+                <h3>🏪 店铺详情</h3>
+                <button class="popup-close" id="shopDetailClose">×</button>
+            </div>
+            <div class="popup-scroll" id="shopDetailContent">
+                <!-- 动态填充内容 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
